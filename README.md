@@ -8,7 +8,7 @@ Usage
 
 Add to your build.properties
 
-```gradle
+```groovy
 apply plugin: 'io.protostuff.compiler'
 
 buildscript {
@@ -25,7 +25,7 @@ buildscript {
 
 Then you can configure your proto modules
 
-```gradle
+```groovy
 protostuff {
     modules {
         foo {
