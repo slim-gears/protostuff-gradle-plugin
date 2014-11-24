@@ -28,4 +28,8 @@ class ProtostuffExtension {
         this.modules = modules
     }
 
+    def modules(Closure closure) {
+        modules.configure(closure)
+    }
+
 }
