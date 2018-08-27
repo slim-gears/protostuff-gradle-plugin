@@ -4,7 +4,6 @@ import io.protostuff.compiler.CachingProtoLoader
 import io.protostuff.compiler.CompilerMain
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.tasks.SourceSet
 
 /**
  * Protostuff Compiler Plugin for Gradle
@@ -27,35 +26,34 @@ class ProtostuffCompilerPlugin implements Plugin<Project> {
         }
 
         project.afterEvaluate {
-            def sources = []
-            def outs = []
 
-            project.protostuff.modules.each { m ->
-                sources.add(m.source)
-                outs.add(m.outputDir)
-            }
-
-            project.tasks.create(GENERATE_SOURCE_TASK) {
+            def genTask = project.tasks.create(GENERATE_SOURCE_TASK) {
                 description 'Generate java classes from all configured proto files'
-                ProtostuffExtension extension = project.protostuff;
-                inputs.file sources
-                outputs.dir outs
+                ProtostuffExtension extension = project.protostuff
+                modules.each { inputs.file it.source }
+                modules.each { outputs.dir it.outputDir }
 
                 doLast {
-                    CachingProtoLoader loader = extension.cacheProtos ? new CachingProtoLoader() : null;
+                    CachingProtoLoader loader = extension.cacheProtos ? new CachingProtoLoader() : null
                     extension.modules.each { m ->
-                        m.setCachingProtoLoader(loader);
-                        CompilerMain.compile(m);
+                        m.setCachingProtoLoader(loader)
+                        CompilerMain.compile(m)
                     }
                 }
-
             }
 
-            def genTask = project.tasks.getByName(GENERATE_SOURCE_TASK)
-            project.tasks.getByName('compileJava').dependsOn genTask
+            def cleanTask = project.tasks.create(CLEAN_GENERATE_TASK) {
+                description "Clean generated java sources"
+                doLast {
+                    modules.each { it.outputDir.deleteDir() }
+                }
+            }
 
-            outs.each {
-                project.sourceSets.main.java.srcDir it
+            project.tasks.getByName('compileJava').dependsOn genTask
+            project.tasks.getByName('clean').dependsOn cleanTask
+
+            modules.each {
+                project.sourceSets.main.java.srcDir it.outputDir
             }
         }
     }
