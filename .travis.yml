@@ -16,6 +16,8 @@ deploy:
               -Dsigning.keyId=$SIGNING_KEY_ID
               -Dsigning.password=
               -Dsigning.secretKeyRingFile=key.gpg
+              -Dsonatype.username=$SONATYPE_USER
+              -Dsonatype.password=$SONATYPE_PASSWORD
               -Dmeta.version=$TRAVIS_TAG
   skip_cleanup: true
   on:

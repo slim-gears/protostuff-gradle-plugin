@@ -15,10 +15,6 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
-def sonatypeUsername = project.property('sonatype.username') as String
-def sonatypePassword = project.property('sonatype.password') as String
-def sonatypeRepoUrl = project.property('sonatype.repoUrl') as String
-
 ext {
     pluginId = group
     description = project.'meta.description'
@@ -79,12 +75,14 @@ pluginBundle {
 publishing {
     repositories {
         mavenLocal()
-        if (sonatypeUsername && sonatypePassword && sonatypeRepoUrl) {
+        if (project.hasProperty('sonatype.username') &&
+                project.hasProperty('sonatype.password') &&
+                project.hasProperty('sonatype.repoUrl')) {
             maven {
-                url sonatypeRepoUrl
+                url project.'sonatype.repoUrl' as String
                 credentials {
-                    username sonatypeUsername
-                    password sonatypePassword
+                    username project.'sonatype.username' as String
+                    password project.'sonatype.password' as String
                 }
             }
         }
