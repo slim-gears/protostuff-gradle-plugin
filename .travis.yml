@@ -14,7 +14,7 @@ deploy:
       -Pgradle.publish.secret=$GRADLE_PUBLISH_SECRET
       -Psigning.keyId=$SIGNING_KEY_ID
       -Psigning.password= -Dsigning.secretKeyRingFile=key.gpg
-      -Psonatype.username=$SONATYPE_USER
+      -Psonatype.username=$SONATYPE_USERNAME
       -Psonatype.password=$SONATYPE_PASSWORD
       -Pmeta.version=$TRAVIS_TAG
   skip_cleanup: true
