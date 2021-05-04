@@ -10,21 +10,20 @@ cache:
 deploy:
   provider: script
   script: |-
-    ./gradlew publishPlugins publish
-              -Dgradle.publish.key=$GRADLE_PUBLISH_KEY
-              -Dgradle.publish.secret=$GRADLE_PUBLISH_SECRET
-              -Dsigning.keyId=$SIGNING_KEY_ID
-              -Dsigning.password=
-              -Dsigning.secretKeyRingFile=key.gpg
-              -Dsonatype.username=$SONATYPE_USER
-              -Dsonatype.password=$SONATYPE_PASSWORD
+    ./gradlew publish \
+              -Dgradle.publish.key=$GRADLE_PUBLISH_KEY \
+              -Dgradle.publish.secret=$GRADLE_PUBLISH_SECRET \
+              -Dsigning.keyId=$SIGNING_KEY_ID \
+              -Dsigning.password= \
+              -Dsigning.secretKeyRingFile=key.gpg \
+              -Dsonatype.username=$SONATYPE_USER \
+              -Dsonatype.password=$SONATYPE_PASSWORD \
               -Dmeta.version=$TRAVIS_TAG
   skip_cleanup: true
   on:
     tags: true
 before_deploy:
-- openssl aes-256-cbc -K $encrypted_2e6b62dd1b86_key -iv $encrypted_2e6b62dd1b86_iv
-  -in key.gpg.enc -out key.gpg -d
+- openssl aes-256-cbc -K $encrypted_2e6b62dd1b86_key -iv $encrypted_2e6b62dd1b86_iv -in key.gpg.enc -out key.gpg -d
 env:
   global:
   - secure: pFH72irehBtobcaO9FqCWCaOVuSSrVaK/VEC4Y1MR5gxRadhy/eyYE38yQMitRmfiXFNBatrCymfcYZTBWG0SUbKgEVK95rv957gF9rPK51OkRhHW9vrqQZLpSgUICe35fwaX3ctm0MCJb0lleNdwwXOQZ9zkR/bBvhIdmSCt/4E4QXQlu7rR7xFi6bOqGUxOLtaWTPGyuvcMY+D7Z3+Ij0txfdo8VD4ioumNjtr/4mWrevDi63qs6qEtRH33laSIO732qyL5H01ZWZnHyY8DiQvyPoHoIgbQw/2LJUISHtLB1NFX2yyahFc9qI8Zpf2ur9UV2Y2l2baNVKH37w1OgxXPQkqVqSUmor9Hwfj3mBvTxAWTD0VNHbkPOuJxXGXMGCH+pm0eSuq46qJtgX9a1MJTzkysSEwcd0IWyKEi4Bge40iIXfa641cRBr3ipemmX8bTFJ/MmyVOr4jpQQM/qvtEC2pBT9THKpFPe68QHDgtsJpqrIjO4O/q+ZmudeSZtjFj51qeHd8kQF8mCyb1q153+n5HX9Yfbes4NgGvYHw0CUA94a4NgzDoDGxeIlt6ltvUTOfyg1VOFNqOJQ2C1NradEIzxIlZULH/mfukyztpMzb1IYMTqgqmcLzrvznwq9uFWgt2RSgP6jKFlF57xMtDyDc0lfG5Y6IrCQwu4w=
