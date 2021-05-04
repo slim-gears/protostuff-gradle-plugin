@@ -1,6 +1,8 @@
 protostuff-gradle-plugin
 ========================
 
+Forked from: https://github.com/ramonwirsch/protostuff-gradle-plugin
+
 Protostuff Plugin for Gradle
 
 Usage
@@ -9,18 +11,16 @@ Usage
 Add to your build.properties
 
 ```groovy
-apply plugin: 'io.protostuff.compiler'
-
 buildscript {
     repositories {
-        mavenLocal()
-        mavenCentral()
+        mavenCentral()    
     }
     dependencies {
-        classpath 'io.protostuff:protostuff-gradle-plugin:1.0.1-SNAPSHOT'
+        classpath 'com.slimgears.protostuff:protostuff-gradle-plugin:1.1.2'
     }
 }
 
+apply plugin: 'com.slimgears.protostuff'
 ```
 
 Then you can configure your proto modules
