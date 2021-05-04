@@ -97,30 +97,6 @@ publishing {
             from components.java
             artifact sourceJar
             artifact javadocJar
-
-            pom {
-                name = project.ext.displayName
-                description = project.ext.description
-                url = project.ext.vcsUrl
-                licenses {
-                    license {
-                        name = project.ext.license
-                        url = project.ext.licenseUrl
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'denis-itskovich'
-                        name = 'Denis Itskovich'
-                        email = 'denis.itskovich@gmail.com'
-                    }
-                }
-                scm {
-                    connection = "scm:git:git://github.com/${project.ext.githubPath}.git"
-                    developerConnection = "scm:git:ssh://github.com/${project.ext.githubPath}.git"
-                    url = project.ext.vcsUrl
-                }
-            }
         }
     }
 }
@@ -130,5 +106,31 @@ signing {
 }
 
 project.afterEvaluate {
-    publishing.publications.each { project.signing.sign it }
+    publishing.publications.each {
+        it.pom {
+            name = project.ext.displayName
+            description = project.ext.description
+            url = project.ext.vcsUrl
+            licenses {
+                license {
+                    name = project.ext.license
+                    url = project.ext.licenseUrl
+                }
+            }
+            developers {
+                developer {
+                    id = 'denis-itskovich'
+                    name = 'Denis Itskovich'
+                    email = 'denis.itskovich@gmail.com'
+                }
+            }
+            scm {
+                connection = "scm:git:git://github.com/${project.ext.githubPath}.git"
+                developerConnection = "scm:git:ssh://github.com/${project.ext.githubPath}.git"
+                url = project.ext.vcsUrl
+            }
+        }
+
+        project.signing.sign it
+    }
 }
